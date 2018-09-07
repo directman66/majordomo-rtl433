@@ -8,7 +8,7 @@
 */
 //
 //
-class slack extends module {
+class rtl433 extends module {
 /**
 *
 * Module class constructor
@@ -17,8 +17,8 @@ class slack extends module {
 */
 function rtl433() {
   $this->name="rtl433";
-  $this->title="rtl433";
-  $this->module_category="<#LANG_SECTION_APPLICATIONS#>";
+  $this->title="RTL433";
+  $this->module_category="<#LANG_SECTION_DEVICES#>";
   $this->checkInstalled();
 }
 /**
@@ -135,8 +135,6 @@ function admin(&$out) {
  if ($_GET['ok']) {
   $out['OK']=1;
  }
- 
-
 }
 
 /**
@@ -166,11 +164,7 @@ function checkSettings() {
     'TYPE'=>'yesno',
     'DEFAULT'=>'1'
     )
-
-
    );
-
-
    foreach($settings as $k=>$v) {
     $rec=SQLSelectOne("SELECT ID FROM settings WHERE NAME='".$v['NAME']."'");
     if (!$rec['ID']) {
@@ -184,11 +178,6 @@ function checkSettings() {
      Define('SETTINGS_'.$rec['NAME'], $v['DEFAULT']);
     }
    }
-
- 	
- 
-	
-	
 }
 	
  
@@ -204,6 +193,36 @@ function checkSettings() {
 
   parent::install();
  }
+
+ function uninstall() {
+   parent::uninstall();
+  SQLExec('DROP TABLE IF EXISTS rtl433_devices');
+  SQLExec('delete from settings where NAME like "%RTL433%"');
+
+ }
+
+
+
+ function dbInstall($data = '') {
+
+ $data = <<<EOD
+ rtl433_devices: ID int(10) unsigned NOT NULL auto_increment
+ rtl433_devices: TITLE varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: IP varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: PORT varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: MAC varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: ONLINE varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: LASTPING varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: CURRENTCOLOR varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: FIND varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
+EOD;
+  parent::dbInstall($data);
+
+}
+
+
 // --------------------------------------------------------------------
 }
 /*
