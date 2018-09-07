@@ -1,0 +1,57 @@
+<div>
+
+[#ONLINE#]
+
+<style>
+.raz {
+  border-spacing: 12.5em 1.3em; /* border-collapse наследуется, применяется только к table или inline-table элементам с border-collapse: separate; */ 
+}
+.raz,
+.raz td {
+  border: 0px solid red;
+padding: .3em 1em
+}
+</style>
+
+
+
+<a href="https://play.google.com/store/apps/details?id=com.Zengge.LEDWifiMagicHome"> 
+<img src="../img/modules/magichomeboard.png" width="20%" height="20%"  > 
+</a>
+&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;
+ &nbsp;&nbsp;<a class="btn btn-default" href="?data_source=<#DATA_SOURCE#>&view_mode=scan&tab=info">SCAN</a>
+
+
+
+ &nbsp; 
+</div>
+
+
+
+	 <ul class="nav nav-tabs">
+
+<br>
+<li [#if TAB=="" || TAB=="info" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=info"><span class="glyphicon glyphicon-list-alt"></span> Информация</a></li>
+<!--<li [#if TAB=="config" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=config"><span class="glyphicon glyphicon-cog"></span> Настройки</a></li>
+<li [#if TAB=="debug" #] class="active" [#endif#]><a href="?view_mode=&tab=debug"><span class="glyphicon glyphicon-inbox"></span> Отладка</a> </li>	
+!-->
+<li [#if TAB=="help" #] class="active" [#endif#]><a href="?view_mode=&tab=help"><span class="glyphicon glyphicon-info-sign"></span> Помощь</a> </li>	
+</ul>
+
+[#if TAB="info"|| TAB==""#] [#inc devlist.html#] [#endif#]
+
+[#if TAB="config"#]
+[#endif#]
+
+[#if TAB="debug"#]
+<br>
+Degug:
+<div>
+[#MSG_DEBUG#]
+
+</div>
+
+ [#endif#]
+
+[#if TAB="help"#] [#inc help.html#] [#endif#]
