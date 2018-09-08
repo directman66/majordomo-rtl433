@@ -119,6 +119,24 @@ function admin(&$out) {
  $out['DISABLED']=$this->config['DISABLED'];
  $out['SLACK_TEST']=SETTINGS_SLACK_APIURL;	
 
+
+///////////
+$cmd='ps -A|grep 433';
+//$cmd='ps -A';
+$answ=shell_exec($cmd);
+//echo $answ;
+$rez=substr_count  ($answ,'433' );
+//echo $rez;
+if ($rez=="1" ){
+$out['CYCLERUN'] = 1;
+} 
+else {
+$out['CYCLERUN'] = 0;
+     } 
+////////////
+
+
+
  if ($this->view_mode=='update_settings') {
    global $access_key;
 //   $this->config['ACCESS_KEY']=$access_key;
@@ -135,6 +153,16 @@ function admin(&$out) {
  if ($_GET['ok']) {
   $out['OK']=1;
  }
+
+if ($this->view_mode=='start') {
+$this->start();
+}  
+
+if ($this->view_mode=='stop') {
+$this->stop();
+}  
+
+
 }
 
 /**
@@ -182,6 +210,42 @@ function checkSettings() {
 	
  
 
+ function start() {
+$cmd='sudo modprobe -r dvb_usb_rtl28xxu';
+$answ=shell_exec($cmd);
+//echo $answ;
+
+$fname="/home/pi/433_".time().".log";
+
+$cmd='sudo killall rtl_433 ';
+$answ=shell_exec($cmd);
+echo $answ;
+
+$cmd='sudo killall rtl_sdr ';
+$answ=shell_exec($cmd);
+echo $answ;
+
+
+//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
+$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
+//$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
+$answ=shell_exec($cmd);
+echo $answ;
+
+ }
+
+ function stop() {
+echo "stopping";
+$cmd='sudo killall rtl_433 ';
+$answ=shell_exec($cmd);
+echo $answ;
+
+$cmd='sudo killall rtl_sdr ';
+$answ=shell_exec($cmd);
+echo $answ;
+
+ }
+
 /**
 * Install
 *
@@ -224,9 +288,6 @@ EOD;
 
 
 // --------------------------------------------------------------------
-
-
-
 }
 /*
 *
