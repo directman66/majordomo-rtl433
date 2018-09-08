@@ -215,22 +215,34 @@ $cmd='sudo modprobe -r dvb_usb_rtl28xxu';
 $answ=shell_exec($cmd);
 //echo $answ;
 
-$fname="/home/pi/433_".time().".log";
+//$fname="/home/pi/433_".time().".log";
 
-$cmd='sudo killall rtl_433 ';
+$cmd='sudo killall rtl_433';
 $answ=shell_exec($cmd);
-echo $answ;
+//echo $answ;
 
-$cmd='sudo killall rtl_sdr ';
+$cmd='sudo killall rtl_sdr';
 $answ=shell_exec($cmd);
-echo $answ;
+//echo $answ;
 
 
-//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
-$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
+
+//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
+///$cmd2='wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json=';
+//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|xargs '.$cmd2.';
+
+$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|xargs wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json=";
+
 //$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
-$answ=shell_exec($cmd);
-echo $answ;
+//$answ=shell_exec($cmd);
+exec($cmd ." > /dev/null 2>&1 &");
+//echo $answ;
+
+
+//$url = BASE_URL . '/rtl433.php?json=' . gg($objn.'.lat');
+//getURL($url, 0);
+
+
 
  }
 
@@ -283,6 +295,34 @@ echo $answ;
  rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
 EOD;
   parent::dbInstall($data);
+
+  $data = <<<EOD
+ rtl433_config: parametr varchar(300)
+ rtl433_config: value varchar(10000)  
+EOD;
+   parent::dbInstall($data);
+
+
+
+$par['parametr'] = 'EVERY';
+$par['value'] = 30;		 
+SQLInsert('rtl433_config', $par);				
+	
+$par['parametr'] = 'LASTCYCLE_TS';
+$par['value'] = "0";		 
+SQLInsert('rtl433_config', $par);						
+		
+$par['parametr'] = 'LASTCYCLE_TXT';
+$par['value'] = "0";		 
+SQLInsert('rtl433_config', $par);						
+
+$par['parametr'] = 'DEBUG';
+$par['value'] = "";		 
+SQLInsert('rtl433_config', $par);						
+
+$par['parametr'] = 'JSON';
+$par['value'] = "";		 
+SQLInsert('rtl433_config', $par);						
 
 }
 
