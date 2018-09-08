@@ -18,7 +18,7 @@ include_once(DIR_MODULES . "application.class.php");
 
 $session = new session("prj");
 
-const GPS_LOCATION_RANGE_DEFAULT = 500;
+
 
 // connecting to database
 $db = new mysql(DB_HOST, '', DB_USER, DB_PASSWORD, DB_NAME);
@@ -26,19 +26,9 @@ $db = new mysql(DB_HOST, '', DB_USER, DB_PASSWORD, DB_NAME);
 include_once("./load_settings.php");
 
 if ($_REQUEST['json'])
-{
-      $rec['TITLE'] = $title;
-      $rec['LAT']   = $_REQUEST['latitude'];
-      $rec['LON']   = $_REQUEST['longitude'];
-      $rec['RANGE'] = (int)$range;
-      $rec['ID']    = SQLInsert('gpslocations', $rec);
+{ $json=$_REQUEST['json'];
+SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
 }
-
-
-
-
-if (isset($_REQUEST['latitude']))
-
 
 
 // closing database connection
