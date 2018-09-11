@@ -266,14 +266,17 @@ $answ=shell_exec($cmd);
 
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'
 //////////.......
-$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget ";
+//$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget ";
+$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget ";
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}"  sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget 
 //////////.......
 
 //$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
 //$answ=shell_exec($cmd);
-exec($cmd ." > /dev/null 2>&1 &");
+$answ=exec($cmd ." > /dev/null 2>&1 &");
+
+SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
 //echo $answ;
 
 
@@ -359,6 +362,10 @@ $par['value'] = "";
 SQLInsert('rtl433_config', $par);						
 
 $par['parametr'] = 'JSON';
+$par['value'] = "";		 
+SQLInsert('rtl433_config', $par);						
+
+$par['parametr'] = 'WORK';
 $par['value'] = "";		 
 SQLInsert('rtl433_config', $par);						
 
