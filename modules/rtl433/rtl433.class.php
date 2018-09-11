@@ -230,44 +230,34 @@ $answ=shell_exec($cmd);
 
 
 // {"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}
-//  wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json={"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}
-//curl -X POST http://example.com/some/path -d
-//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
-///$cmd2='wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json=';
-//$cmd='/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|xargs '.$cmd2.';
 
-//$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|xargs wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json=";
-//$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json|xargs curl -X POST http://dmshome:662583abca@192.168.1.39/rtl433.php?json=";
-
-//curl -X POST http://dmshome:662583abca@192.168.1.39/rtl433.php?json="{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}"
-//wget -P  http://dmshome:662583abca@192.168.1.39/rtl433.php?json='{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}'
-
-//curl -XPOST http://dmshome:662583abca@192.168.1.39/rtl433.php?json='{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}'
-
-//echo {"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}|php -r "echo urlencode('$1');" |echo 
+//$db = new mysql(DB_HOST, '', DB_USER, DB_PASSWORD, DB_NAME);
+$mdlogin=EXT_ACCESS_USERNAME;
+$mdpassword=EXT_ACCESS_PASSWORD;
 
 
-//echo {"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}|uri_escape(){ echo -E "$@" | sed 's/\\/\\\\/g;s/./&\n/g' | while read -r i; do echo $i | grep -q '[a-zA-Z0-9/.:?&=]' && echo -n "$i" || printf %%%x \'"$i" done }
+$res=exec('hostname -I');
+$ipv6_regex='/(\w{4})/is';
+$res = trim(preg_replace($ipv6_regex,'',$res));
+$ipv6_regex='/:(\w+)/is';
+$res = trim(preg_replace($ipv6_regex,'',$res));
+$host = trim(str_replace(':','',$res));
 
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'|xargs wget -O http://dmshome:662583abca@192.168.1.39/rtl433.php?json=
+//$host='192.168.1.39';
 
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'|xargs wget   http://dmshome:662583abca@192.168.1.39/rtl433.php?json=
-/////////////////// нижний работает
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'| echo http://dmshome:662583abca@192.168.1.39/rtl433.php?json="$@"
 
-//echo "http://dmshome:662583abca@192.168.1.39/rtl433.php?json={"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'
+$rtlpath='/home/pi/rtl_433_rcswitch/build/src';
+$parametrs='-R 19 -R 1 -R 30 ';
 
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}"| sed 's,", ,g'
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,
 
-//curl -G -v "http://dmshome:662583abca@192.168.1.39/rtl433.php?json={"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" --data-urlencode "msg=hello world" --data-urlencode "msg2=hello world2"
 
-////////////
+if (IsSet($mdlogin)) { 
+$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget ";
+} else {
+$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget ";
+}
 
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'
-//////////.......
-//$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget ";
-$cmd="/home/pi/rtl_433_rcswitch/build/src/rtl_433 -R 19 -R 1 -R 30 -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget ";
+
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}"  sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget 
 //////////.......
@@ -379,3 +369,6 @@ SQLInsert('rtl433_config', $par);
 * TW9kdWxlIGNyZWF0ZWQgTWFyIDEzLCAyMDE2IHVzaW5nIFNlcmdlIEouIHdpemFyZCAoQWN0aXZlVW5pdCBJbmMgd3d3LmFjdGl2ZXVuaXQuY29tKQ==
 *
 */
+
+
+
