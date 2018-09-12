@@ -323,7 +323,7 @@ echo $answ;
  rtl433_devices: CURRENTCOLOR varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: time varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: model varchar(100) NOT NULL DEFAULT ''
- rtl433_devices: id varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: iddev varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: battery varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: channel varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: temperature_C varchar(100) NOT NULL DEFAULT ''
