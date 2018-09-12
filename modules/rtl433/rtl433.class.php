@@ -179,6 +179,11 @@ if ($this->view_mode=='clearall') {
 $this->clearall();
 }  
 
+         if ($this->view_mode == 'edit_devices') {
+            $this->edit_devices($out, $this->id);
+         }
+
+
 
 
 }
@@ -196,6 +201,11 @@ function usual(&$out) {
 
 	
  
+   function edit_devices(&$out, $id)
+   {
+      require(DIR_MODULES . $this->name . '/devices_edit.inc.php');
+   }
+
 
  function start() {
 $cmd='sudo modprobe -r dvb_usb_rtl28xxu';
@@ -327,6 +337,7 @@ function clearall() {
  rtl433_devices: temperature_C varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: humidity varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: FIND varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: json varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
 EOD;
