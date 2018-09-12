@@ -1,9 +1,12 @@
 [#if VIEW_MODE=""#]
+
+
 <table align="center" class="table table-striped">
- <tr>
+ <tr> 
+  <td><b>ID</b></td>
   <td><b>model</b></td>
   <td><b>time</b></td>
-  <td><b>id</b></td>
+  <td><b>iddev</b></td>
   <td><b>battery</b></td>
   <td><b>channel</b></td>
   <td><b>temperature_C</b></td>
@@ -16,9 +19,10 @@
 [#begin DEVICES#]
 
  <tr>
+  <td>[#ID#]</td>
   <td>[#model#]</td>
   <td>[#time#]</td>
-  <td>[#id#]</td>
+  <td>[#iddev#]</td>
   <td>[#battery#]</td>
   <td>[#channel#]</td>
   <td>[#temperature_C#]</td>
@@ -37,3 +41,4 @@
 
 [#endif VIEW_MODE#]
 
+ &nbsp;&nbsp;<a class="btn btn-default" href="?data_source=<#DATA_SOURCE#>&view_mode=clearall&tab=info">CLEAR ALL</a>
