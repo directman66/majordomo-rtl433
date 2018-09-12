@@ -28,6 +28,14 @@ include_once("./load_settings.php");
 if ($_REQUEST['json'])
 { $json=$_REQUEST['json'];
 SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
+
+$data=json_decode($json,true);
+$par=array();
+foreach ($src as $key=> $value ) {   
+$par[$key] = $value;
+}     
+SQLInsert('rtl433_devices', $par);				
+
 }
 
 
