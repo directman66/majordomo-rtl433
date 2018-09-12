@@ -175,6 +175,10 @@ if ($this->view_mode=='delete_devices') {
 $this->delete_once($this->id);
 }  
 
+if ($this->view_mode=='clearall') {
+$this->clearall();
+}  
+
 
 
 }
@@ -283,6 +287,11 @@ echo $answ;
 
 function delete_once($id) {
   SQLExec("DELETE FROM rtl433_devices WHERE id=".$id);
+  $this->redirect("?");
+ }
+
+function clearall() {
+  SQLExec("DELETE FROM rtl433_devices");
   $this->redirect("?");
  }
 
