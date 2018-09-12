@@ -252,9 +252,9 @@ $parametrs='-R 19 -R 1 -R 30 ';
 
 
 if (IsSet($mdlogin)) { 
-$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget ";
+$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
 } else {
-$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget ";
+$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
 }
 
 
@@ -321,10 +321,19 @@ echo $answ;
  rtl433_devices: ONLINE varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LASTPING varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: CURRENTCOLOR varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: time varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: model varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: id varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: battery varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: channel varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: temperature_C varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: humidity varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: FIND varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
 EOD;
+
+
   parent::dbInstall($data);
 
   $data = <<<EOD
@@ -369,6 +378,3 @@ SQLInsert('rtl433_config', $par);
 * TW9kdWxlIGNyZWF0ZWQgTWFyIDEzLCAyMDE2IHVzaW5nIFNlcmdlIEouIHdpemFyZCAoQWN0aXZlVW5pdCBJbmMgd3d3LmFjdGl2ZXVuaXQuY29tKQ==
 *
 */
-
-
-
