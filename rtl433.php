@@ -32,7 +32,8 @@ SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
 $data=json_decode($json,true);
 $par=array();
 foreach ($src as $key=> $value ) {   
-$par[$key] = $value;
+if ($key=='id' ) {  $par[$key.'dev'] = $value;} else 
+{$par[$key] = $value;}
 }     
 SQLInsert('rtl433_devices', $par);				
 
