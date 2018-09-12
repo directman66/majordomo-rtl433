@@ -100,7 +100,7 @@ function run() {
   $out['ACTION']=$this->action;
   $out['TAB']=$this->tab;
   $this->data=$out;
-  $this->checkSettings();
+//  $this->checkSettings();
 
 
   $p=new parser(DIR_TEMPLATES.$this->name."/".$this->name.".html", $this->data, $this);
@@ -117,7 +117,7 @@ function admin(&$out) {
  $this->getConfig();
  $out['ACCESS_KEY']=$this->config['ACCESS_KEY'];
  $out['DISABLED']=$this->config['DISABLED'];
- $out['SLACK_TEST']=SETTINGS_SLACK_APIURL;	
+// $out['SLACK_TEST']=SETTINGS_SLACK_APIURL;	
 
 
 ///////////
@@ -138,6 +138,12 @@ $out['CYCLERUN'] = 0;
 
 $cmd_rec = SQLSelectOne("SELECT VALUE FROM rtl433_config where parametr='JSON'");
 $out['MSG_DEBUG']=$cmd_rec['VALUE'];
+
+$mhdevices=SQLSelect("SELECT * FROM rtl433_devices");
+if ($mhdevices[0]['ID']) {
+ $out['DEVICES']=$mhdevices;
+
+    }
 
 
  if ($this->view_mode=='update_settings') {
@@ -165,6 +171,11 @@ if ($this->view_mode=='stop') {
 $this->stop();
 }  
 
+if ($this->view_mode=='delete_devices') {
+$this->delete_once($this->id);
+}  
+
+
 
 }
 
@@ -178,38 +189,7 @@ $this->stop();
 function usual(&$out) {
  $this->admin($out);
 }
-function checkSettings() {
 
- // Здесь задаются нужные нам параметры - пример взят из календаря, как раз есть текстбокс и радиобуттон 
-  $settings=array(
-   array(
-    'NAME'=>'RTL433_APIURL', 
-    'TITLE'=>'Incoming Webhook API Url: (*)', 
-    'TYPE'=>'text',
-    'DEFAULT'=>'https://hooks.slack.com/services/xxxx/'
-    ),
-  
-  array(
-    'NAME'=>'RTL433_ENABLE', 
-    'TITLE'=>'Enable',
-    'TYPE'=>'yesno',
-    'DEFAULT'=>'1'
-    )
-   );
-   foreach($settings as $k=>$v) {
-    $rec=SQLSelectOne("SELECT ID FROM settings WHERE NAME='".$v['NAME']."'");
-    if (!$rec['ID']) {
-     $rec['NAME']=$v['NAME'];
-     $rec['VALUE']=$v['DEFAULT'];
-     $rec['DEFAULTVALUE']=$v['DEFAULT'];
-     $rec['TITLE']=$v['TITLE'];
-     $rec['TYPE']=$v['TYPE'];
-     $rec['DATA']=$v['DATA'];
-     $rec['ID']=SQLInsert('settings', $rec);
-     Define('SETTINGS_'.$rec['NAME'], $v['DEFAULT']);
-    }
-   }
-}
 	
  
 
@@ -300,6 +280,13 @@ echo $answ;
 
   parent::install();
  }
+
+function delete_once($id) {
+  SQLExec("DELETE FROM rtl433_devices WHERE id=".$id);
+  $this->redirect("?");
+ }
+
+
 
  function uninstall() {
  
