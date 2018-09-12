@@ -29,7 +29,7 @@ if ($_REQUEST['json'])
 { $json=$_REQUEST['json'];
 SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
 
-$data=json_decode($json,true);
+$src=json_decode($json,true);
 $par=array();
 foreach ($src as $key=> $value ) {   
 if ($key=='id' ) {  $par[$key.'dev'] = $value;} else 
