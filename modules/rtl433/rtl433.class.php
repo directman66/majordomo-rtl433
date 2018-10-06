@@ -167,6 +167,12 @@ if ($this->view_mode=='start') {
 $this->start();
 }  
 
+if ($this->view_mode=='read') {
+$this->readmyfile();
+}  
+
+
+
 if ($this->view_mode=='stop') {
 $this->stop();
 }  
@@ -245,11 +251,18 @@ $parametrs='-R 19 -R 1 -R 30 ';
 
 
 
-if (IsSet($mdlogin)) { 
-$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
-} else {
-$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
-}
+//if (IsSet($mdlogin)) { 
+//$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
+//} else {
+//$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
+//}
+
+
+
+//$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json -W ".ROOT."cms/cached/rtl433";
+unlink(ROOT."cms/cached/rtl433");
+$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json >".ROOT."cms/cached/rtl433";
+echo $cmd;
 
 
 //echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,
@@ -258,7 +271,8 @@ $cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g
 
 //$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
 //$answ=shell_exec($cmd);
-$answ=exec($cmd ." > /dev/null 2>&1 &");
+//$answ=exec($cmd ." > /dev/null 2>&1 &");
+$answ=exec($cmd ."  2>&1 &");
 
 SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
 //echo $answ;
@@ -271,7 +285,7 @@ SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
 
  }
 
- function stop() {
+function stop() {
 echo "stopping";
 $cmd='sudo killall rtl_433 ';
 $answ=shell_exec($cmd);
@@ -282,6 +296,116 @@ $answ=shell_exec($cmd);
 echo $answ;
 
  }
+
+
+function readmyfile2() {
+/*
+$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
+
+
+
+define("TEXT_FILE", $filename);
+// number of lines to read from the end of file
+define("LINES_COUNT", 10);
+ 
+ 
+function read_file($file, $lines) {
+    //global $fsize;
+    $handle = fopen($file, "r");
+    $linecounter = $lines;
+    $pos = -2;
+    $beginning = false;
+    $text = array();
+    while ($linecounter > 0) {
+        $t = " ";
+        while ($t != "\n") {
+            if(fseek($handle, $pos, SEEK_END) == -1) {
+                $beginning = true; 
+                break; 
+            }
+            $t = fgetc($handle);
+            $pos --;
+        }
+        $linecounter --;
+        if ($beginning) {
+            rewind($handle);
+        }
+        $text[$lines-$linecounter-1] = fgets($handle);
+        if ($beginning) break;
+    }
+    fclose ($handle);
+    return array_reverse($text);
+}
+ 
+$fsize = round(filesize(TEXT_FILE)/1024/1024,2);
+$lines = read_file(TEXT_FILE, LINES_COUNT);
+foreach ($lines as $line) {
+//    echo $line;
+if (substr($line,1,1)=="{")
+{ $json=$line;
+echo $json;
+SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
+
+$src=json_decode($json,true);
+$par=array();
+foreach ($src as $key=> $value ) {   
+if ($key=='id' ) {  $param=$key.'dev';} else  {$param=$key;}
+$par[$param] = $value;
+}     
+$par['json']=$json;
+
+$model=$par['model'];
+$channel=$par['channel'];
+
+$new=SQLSelect("SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ");
+if ($new[0]['ID']) {
+//update
+SQLUpdate('rtl433_devices',$par); 
+
+} else {
+//newrecord
+if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}			
+}}}                   	
+
+*/
+}
+
+
+
+
+function readmyfile(){
+/*
+$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
+
+$fp = fopen($filename, "r");
+fseek($fp, -500, SEEK_END); // 500 bytes back
+
+// get the last 10 lines
+$line_buffer = array();
+while (!feof($fp)) {
+    $line = fgets($fp, 1024);
+    $line_buffer[] = $line;
+    $line_buffer = array_slice($line_buffer, -10, 10);
+}
+// the above can be made to work quicker, but it'd use more memory
+
+// print those lines
+foreach ($line_buffer as $line) {
+    echo $line;
+}
+
+// print new changes
+while (true) {
+    $line = fgets($fp, 1024); // blocking
+    echo $line;
+}
+*/
+}
+
+
+
+ 
+
 
 /**
 * Install
