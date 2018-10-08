@@ -181,6 +181,8 @@ if ($mhdevices[0]['ID']) {
   $out['OK']=1;
  }
 
+//echo $this->tab;
+
 if ($this->view_mode=='start') {
 $this->start();
 }  
@@ -209,6 +211,21 @@ $this->clearall();
 
 
 
+         if ($this->tab == 'configdevices') {
+//echo '0';
+            $this->configdevices($out, $this->id);
+         }
+
+ if ($this->view_mode=='config_check') {
+//echo "echeck";
+   $this->config_check($this->id);
+ }
+ if ($this->view_mode=='config_uncheck') {
+   $this->config_uncheck($this->id);
+ }
+
+
+
 
 }
 
@@ -229,6 +246,30 @@ function usual(&$out) {
    {
       require(DIR_MODULES . $this->name . '/devices_edit.inc.php');
    }
+
+ function config_check($id) {
+  $rec=SQLSelectOne("SELECT * FROM rtl433_devicelist WHERE ID=".$id);
+//echo "<br>". implode( $id);
+   $rec['ENABLE']=1;
+SQLUpdate('rtl433_devicelist',$rec); 
+} 
+
+ function config_uncheck($id) {
+  $rec=SQLSelectOne("SELECT * FROM rtl433_devicelist WHERE ID=".$id);
+//echo "<br>". implode( $id);
+   $rec['ENABLE']=0;
+SQLUpdate('rtl433_devicelist',$rec); 
+} 
+
+
+
+
+   function configdevices(&$out, $id)
+   {
+//echo '1';
+   require(DIR_MODULES . $this->name . '/configdevices.inc.php');
+   }
+
 
 
  function start() {
