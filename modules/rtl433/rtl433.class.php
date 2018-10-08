@@ -544,8 +544,8 @@ EOD;
 
 
  $data = <<<EOD
- rtl433_devicelist: ID int(10) unsigned NOT NULL auto_increment
- rtl433_devicelist: ENABLE int(10)  NOT NULL auto_increment
+ rtl433_devicelist: ID int(10) 
+ rtl433_devicelist: ENABLE int(10)  
  rtl433_devicelist: NAME varchar(100) NOT NULL DEFAULT ''
 EOD;
   parent::dbInstall($data);
