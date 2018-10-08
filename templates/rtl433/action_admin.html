@@ -2,6 +2,7 @@
 
 [#ONLINE#]
 
+
 <style>
 .raz {
   border-spacing: 12.5em 1.3em; /* border-collapse наследуется, применяется только к table или inline-table элементам с border-collapse: separate; */ 
@@ -45,7 +46,7 @@ padding: .3em 1em
 
 <br>
 <li [#if TAB=="" || TAB=="info" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=info"><span class="glyphicon glyphicon-list-alt"></span> Информация</a></li>
-<!--<li [#if TAB=="config" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=config"><span class="glyphicon glyphicon-cog"></span> Настройки</a></li> -->
+<li [#if TAB=="configdevices" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=configdevices"><span class="glyphicon glyphicon-cog"></span> Список устройств</a></li> 
 <li [#if TAB=="debug" #] class="active" [#endif#]><a href="?view_mode=&tab=debug"><span class="glyphicon glyphicon-inbox"></span> Отладка</a> </li>	
 
 <li [#if TAB=="help" #] class="active" [#endif#]><a href="?view_mode=&tab=help"><span class="glyphicon glyphicon-info-sign"></span> Помощь</a> </li>	
@@ -53,8 +54,6 @@ padding: .3em 1em
 
 [#if TAB="info"|| TAB==""#] [#inc devlist.html#] [#endif#]
 
-[#if TAB="config"#]
-[#endif#]
 
 [#if TAB="debug"#]
 <!-- &nbsp;&nbsp;<a class="btn btn-default" href="rtl433.php?json=null">CLEAR</a> -->
@@ -68,7 +67,12 @@ Debug:<br>
 [#MSG_DEBUG#]
 
 </div>
- [#endif#]
+[#endif#]
+
+   [#if TAB="configdevices"#]
+      [#inc devconfig.html#]
+   [#endif TAB#]
+
 
 [#if VIEW_MODE="edit_devices"#]
    [#if ID!=""#]
@@ -85,9 +89,11 @@ Debug:<br>
       <br/>
    [#endif ID#]
    
+
    [#if TAB=""#]
-      [#inc devices_edit_default.html#]
+      [#inc devconfig.html#]
    [#endif TAB#]
+
    
    [#if TAB="data"#]
       [#inc devices_edit_data.html#]
