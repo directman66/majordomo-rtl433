@@ -496,6 +496,7 @@ function clearall() {
  
   SQLExec('DROP TABLE IF EXISTS rtl433_devices');
   SQLExec('DROP TABLE IF EXISTS rtl433_config');
+  SQLExec('DROP TABLE IF EXISTS rtl433_devicelist');
   SQLExec('delete from settings where NAME like "%RTL433%"');
   parent::uninstall();
 
@@ -544,7 +545,7 @@ EOD;
 
  $data = <<<EOD
  rtl433_devicelist: ID int(10) unsigned NOT NULL auto_increment
- rtl433_devicelist: ENABLE int(10) unsigned NOT NULL auto_increment
+ rtl433_devicelist: ENABLE int(10)  NOT NULL auto_increment
  rtl433_devicelist: NAME varchar(100) NOT NULL DEFAULT ''
 EOD;
   parent::dbInstall($data);
@@ -582,6 +583,426 @@ SQLInsert('rtl433_config', $par);
 $par['parametr'] = 'WORK';
 $par['value'] = "";		 
 SQLInsert('rtl433_config', $par);						
+
+
+
+//////////
+$par1['ID'] = 1;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Silvercrest Remote Control";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 2;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Rubicson Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 3;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Prologue Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 4;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Waveman Switch Transmitter";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 5;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Steffen Switch Transmitter";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 6;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "ELV EM 1000";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 7;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "ELV WS 2000";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 8;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "LaCrosse TX Temperature / Humidity Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 9;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Template decoder";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 10;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Acurite 896 Rain Gauge";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 11;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Acurite 609TXC Temperature and Humidity Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 12;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Oregon Scientific Weather Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 13;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Mebus 433";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 14;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Intertechno 433";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 15;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "KlikAanKlikUit Wireless Switch";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 16;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "AlectoV1 Weather Sensor (Alecto WS3500 WS4500 Ventus W155/W044 Oregon)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 17;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Cardin S466-TX2";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 18;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Fine Offset Electronics, WH2, WH5, Telldus Temperature/Humidity/Rain Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 19;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Nexus Temperature & Humidity Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 20;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Ambient Weather Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 21;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Calibeur RF-104 Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 22;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "X10 RF";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 23;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "DSC Security Contact";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 24;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Brennenstuhl RCS 2044";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 25;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "GT-WT-02 Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 26;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Danfoss CFR Thermostat";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 27;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Energy Count 3000 (868.3 MHz)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 28;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Valeo Car Key";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 29;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "EChuango Security Technology";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 30;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Generic Remote SC226x EV1527";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+//////////////////////
+
+$par1['ID'] = 31;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "TFA-Twin-Plus-30.3049 and Ea2 BL999";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 32;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Fine Offset Electronics WH1080/WH3080 Weather Station";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 33;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "WT450";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 34;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "LaCrosse WS-2310 Weather Station";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 35;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Esperanza EWS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 36;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Efergy e2 classic";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 37;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "Inovalley kw9015b, TFA Dostmann 30.3161 (Rain and temperature sensor)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 38;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Generic temperature sensor 1";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 39;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "WG-PB12V1";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 40;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Acurite 592TXR Temp/Humidity, 5n1 Weather Station, 6045 Lightning";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 41;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Acurite 986 Refrigerator / Freezer Thermometer";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 42;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "HIDEKI TS04 Temperature, Humidity, Wind and Rain Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 43;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Watchman Sonic / Apollo Ultrasonic / Beckett Rocket oil tank monitor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 44;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "CurrentCost Current Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 45 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "emonTx OpenEnergyMonitor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 46;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "HT680 Remote control";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 47;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "S3318P Temperature & Humidity Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 48;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Akhan 100F14 remote keyless entry";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 49 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Quhwa";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 50;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "OSv1 Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 51;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Proove";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 52;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Bresser Thermo-/Hygro-Sensor 3CH";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 53;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Springfield Temperature and Soil Moisture";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 54;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Oregon Scientific SL109H Remote Thermal Hygro Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 55;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Acurite 606TX Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 56;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "TFA pool temperature sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 57;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Kedsum Temperature & Humidity Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 58;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "blyss DC5-UK-WH (433.92 MHz)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 59;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Steelmate TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 60;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Schrader TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+/*
+
+    [01]  Silvercrest Remote Control
+    [02]  Rubicson Temperature Sensor
+    [03]  Prologue Temperature Sensor
+    [04]  Waveman Switch Transmitter
+    [05]* Steffen Switch Transmitter
+    [06]* ELV EM 1000
+    [07]* ELV WS 2000
+    [08]  LaCrosse TX Temperature / Humidity Sensor
+    [09]* Template decoder
+    [10]* Acurite 896 Rain Gauge
+    [11]  Acurite 609TXC Temperature and Humidity Sensor
+    [12]  Oregon Scientific Weather Sensor
+    [13]* Mebus 433
+    [14]* Intertechno 433
+    [15]  KlikAanKlikUit Wireless Switch
+    [16]  AlectoV1 Weather Sensor (Alecto WS3500 WS4500 Ventus W155/W044 Oregon)
+    [17]  Cardin S466-TX2
+    [18]  Fine Offset Electronics, WH2, WH5, Telldus Temperature/Humidity/Rain Sensor
+    [19]  Nexus Temperature & Humidity Sensor
+    [20]  Ambient Weather Temperature Sensor
+    [21]  Calibeur RF-104 Sensor
+    [22]* X10 RF
+    [23]  DSC Security Contact
+    [24]* Brennenstuhl RCS 2044
+    [25]  GT-WT-02 Sensor
+    [26]  Danfoss CFR Thermostat
+    [27]* Energy Count 3000 (868.3 MHz)
+    [28]* Valeo Car Key
+    [29]  Chuango Security Technology
+    [30]  Generic Remote SC226x EV1527
+    [31]  TFA-Twin-Plus-30.3049 and Ea2 BL999
+    [32]  Fine Offset Electronics WH1080/WH3080 Weather Station
+    [33]  WT450
+    [34]  LaCrosse WS-2310 Weather Station
+    [35]  Esperanza EWS
+    [36]  Efergy e2 classic
+    [37]* Inovalley kw9015b, TFA Dostmann 30.3161 (Rain and temperature sensor)
+    [38]  Generic temperature sensor 1
+    [39]  WG-PB12V1
+    [40]  Acurite 592TXR Temp/Humidity, 5n1 Weather Station, 6045 Lightning
+    [41]  Acurite 986 Refrigerator / Freezer Thermometer
+    [42]  HIDEKI TS04 Temperature, Humidity, Wind and Rain Sensor
+    [43]  Watchman Sonic / Apollo Ultrasonic / Beckett Rocket oil tank monitor
+    [44]  CurrentCost Current Sensor
+    [45]  emonTx OpenEnergyMonitor
+    [46]  HT680 Remote control
+    [47]  S3318P Temperature & Humidity Sensor
+    [48]  Akhan 100F14 remote keyless entry
+    [49]  Quhwa
+    [50]  OSv1 Temperature Sensor
+    [51]  Proove
+    [52]  Bresser Thermo-/Hygro-Sensor 3CH
+    [53]  Springfield Temperature and Soil Moisture
+    [54]  Oregon Scientific SL109H Remote Thermal Hygro Sensor
+    [55]  Acurite 606TX Temperature Sensor
+    [56]  TFA pool temperature sensor 
+    [57]  Kedsum Temperature & Humidity Sensor
+    [58]  blyss DC5-UK-WH (433.92 MHz)
+    [59]  Steelmate TPMS
+    [60]  Schrader TPMS
+    [61]* LightwaveRF
+    [62]  Elro DB286A Doorbell
+    [63]  Efergy Optical
+    [64]  Honda Car Key
+    [65]* Template decoder
+    [66]* Template decoder
+    [67]  Radiohead ASK
+    [68]  Kerui PIR Sensor
+    [69]  Fine Offset WH1050 Weather Station
+    [70]  Honeywell Door/Window Sensor
+    [71]  Maverick ET-732/733 BBQ Sensor
+    [72]* RF-tech
+    [73]  LaCrosse TX141-Bv2/TX141TH-Bv2 sensor
+    [74]  Acurite 00275rm,00276rm Temp/Humidity with optional probe
+    [75]  LaCrosse TX35DTH-IT, TFA Dostmann 30.3155 Temperature/Humidity sensor
+    [76]  LaCrosse TX29IT Temperature sensor
+    [77]  Vaillant calorMatic 340f Central Heating Control
+    [78]  Fine Offset Electronics, WH25, WH24, HP1000 Temperature/Humidity/Pressure Sensor
+    [79]  Fine Offset Electronics, WH0530 Temperature/Rain Sensor
+    [80]  IBIS beacon
+    [81]  Oil Ultrasonic STANDARD FSK
+    [82]  Citroen TPMS
+    [83]  Oil Ultrasonic STANDARD ASK 
+    [84]  Thermopro TP11 Thermometer
+    [85]  Solight TE44
+    [86]  Wireless Smoke and Heat Detector GS 558
+    [87]  Generic wireless motion sensor
+    [88]  Toyota TPMS
+    [89]  Ford TPMS
+    [90]  Renault TPMS
+    [91]* inFactory
+    [92]  FT-004-B Temperature Sensor
+    [93]  Ford Car Key
+    [94]  Philips outdoor temperature sensor
+    [95]  Schrader TPMS EG53MA4
+    [96]  Nexa
+    [97]  Thermopro TP08/TP12 thermometer
+    [98]  GE Color Effects
+    [99]  X10 Security
+    [100]  Interlogix GE UTC Security Devices
+    [101]* Dish remote 6.3
+    [102]* SimpliSafe Home Security System (May require disabling automatic gain for KeyPad decodes)
+    [103]  Sensible Living Mini-Plant Moisture Sensor
+    [104]* Wireless M-Bus, Mode C&T, 100kbps (-f 868950000 -s 1200000)
+    [105]* Wireless M-Bus, Mode S, 32.768kbps (-f 868300000 -s 1000000)
+    [106]* Wireless M-Bus, Mode R, 4.8kbps (-f 868330000)
+    [107]* Wireless M-Bus, Mode F, 2.4kbps
+    [108]  WS Temperature Sensor
+    [109]  WT0124 Pool Thermometer
+
+*/
+
 
 }
 
