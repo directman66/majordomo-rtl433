@@ -306,7 +306,17 @@ $host = trim(str_replace(':','',$res));
 
 
 $rtlpath='/home/pi/rtl_433_rcswitch/build/src';
-$parametrs='-R 19 -R 1 -R 30 ';
+//$parametrs='-R 19 -R 1 -R 30 ';
+$parametrs="";
+$sql=sqlselect('select * from rtl433_devicelist where ENABLE=1');
+$total = count($sql);
+for ($i = 0; $i < $total; $i++)
+{
+$parametrs.=' -R'.$sql[$i]['ID'].' ';
+}
+//echo "parametrs:".$parametrs;
+
+
 
 //сетевой вариант
 //if (IsSet($mdlogin)) { 
