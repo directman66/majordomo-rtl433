@@ -590,6 +590,8 @@ function clearall() {
  rtl433_devices: model varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: iddev varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: battery varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: unknown1 varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: unknown2 varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: channel varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: temperature_C varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: humidity varchar(100) NOT NULL DEFAULT ''
@@ -628,6 +630,11 @@ EOD;
  rtl433_config: value varchar(10000)  
 EOD;
    parent::dbInstall($data);
+
+  $mhdevices=SQLSelect("SELECT *  FROM rtl433_config");
+  if ($mhdevices[0]['ID']) 
+
+{}else{
 
 
 
@@ -959,6 +966,8 @@ $par1['ID'] = 60;
 $par1['ENABLE'] = 0;
 $par1['NAME'] = "Schrader TPMS";		 
 SQLInsert('rtl433_devicelist', $par1);						
+
+}
 
 /*
 
