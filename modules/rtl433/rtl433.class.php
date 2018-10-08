@@ -122,8 +122,11 @@ function admin(&$out) {
 
 ///////////
 $cmd='ps -A|grep 433';
+
+
 //$cmd='ps -A';
 $answ=shell_exec($cmd);
+$out['MSG_PS']=$answ;
 //echo $answ;
 $rez=substr_count  ($answ,'433' );
 //echo $rez;
@@ -136,8 +139,23 @@ $out['CYCLERUN'] = 0;
 ////////////
 
 
-$cmd_rec = SQLSelectOne("SELECT VALUE FROM rtl433_config where parametr='JSON'");
-$out['MSG_DEBUG']=$cmd_rec['VALUE'];
+
+//$cmd_rec = SQLSelectOne("SELECT VALUE FROM rtl433_config where parametr='JSON'");
+//$out['MSG_DEBUG']=$cmd_rec['VALUE'];
+
+$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
+
+$a=shell_exec("tail -n 100 $filename");
+//$a=shell_exec("cat $filename");
+//$a=str_replace(chr(13),'<br>',$a);
+//$a=str_replace ("\r\n", "<br>", $a);
+
+$a =  str_replace( array("\r\n","\r","\n") , '<br>' , $a);
+$out['MSG_DEBUG']=$a;
+
+
+
+
 
 $mhdevices=SQLSelect("SELECT * FROM rtl433_devices");
 if ($mhdevices[0]['ID']) {
@@ -249,37 +267,26 @@ $host = trim(str_replace(':','',$res));
 $rtlpath='/home/pi/rtl_433_rcswitch/build/src';
 $parametrs='-R 19 -R 1 -R 30 ';
 
-
-
+//сетевой вариант
 //if (IsSet($mdlogin)) { 
 //$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$mdlogin:$mdpassword@$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
 //} else {
 //$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json| sed 's/ /%20/g;s/!/%21/g;s/\"/%22/g;s/#/%23/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://$host/rtl433.php?json=,|xargs wget -O rtl433.temp";
 //}
+//$answ=exec($cmd ." > /dev/null 2>&1 &");
 
-
-
+//вариант через файл и tail
 //$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json -W ".ROOT."cms/cached/rtl433";
 unlink(ROOT."cms/cached/rtl433");
 $cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json >".ROOT."cms/cached/rtl433";
-echo $cmd;
-
-
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,
-//echo "{"time" : "2018-09-08 15:16:31", "model" : "Nexus Temperature/Humidity", "id" : 82, "battery" : "LOW", "channel" : 3, "temperature_C" : 31.700, "humidity" : 37}"  sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g;'s,^,http://dmshome:662583abca@192.168.1.39/rtl433.php?json=,|xargs wget 
-//////////.......
+//echo $cmd;
 
 //$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
 //$answ=shell_exec($cmd);
-//$answ=exec($cmd ." > /dev/null 2>&1 &");
 $answ=exec($cmd ."  2>&1 &");
 
 SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
 //echo $answ;
-
-
-//$url = BASE_URL . '/rtl433.php?json=' . gg($objn.'.lat');
-//getURL($url, 0);
 
 
 
@@ -297,9 +304,61 @@ echo $answ;
 
  }
 
+////////////////////
 
-function readmyfile2() {
-/*
+function readmyfile() {
+$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
+
+$a=shell_exec("
+tail -n 5 $filename");
+//echo $a;
+
+$aray =explode("}", $a);
+foreach ($aray as $val)
+{
+$json=$val." }";
+//echo $json;
+
+if (substr($json,1,1)=="{")
+{ 
+//$json=$line;
+//echo "<br>";
+//echo $json;
+//SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
+//$json='{"time" : "2018-10-08 21:32:57", "model" : "Nexus Temperature/Humidity", "id" : 56, "battery" : "OK", "channel" : 2, "temperature_C" : 26.200, "humidity" : 40}';
+$src=json_decode(trim($json),true);
+
+//print_r($src);
+$par=array();
+foreach ($src as $key=> $value ) {   
+if ($key=='id' ) {  $param=$key.'dev';} else  {$param=$key;}
+$par[$param] = $value;
+}     
+$par['json']=$json;
+
+$model=$par['model'];
+$channel=$par['channel'];
+$sql="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
+//echo $sql;
+$new=SQLSelect($sql);
+if ($new[0]['ID']) {
+//update
+SQLUpdate('rtl433_devices',$par); 
+
+} else {
+//newrecord
+if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}			
+}}
+
+
+}
+
+
+
+}
+
+function readmyfile5() {
+
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
 
 
@@ -365,16 +424,19 @@ SQLUpdate('rtl433_devices',$par);
 } else {
 //newrecord
 if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}			
-}}}                   	
+}}
 
-*/
+
+}                   	
+
+
 }
 
 
 
 
-function readmyfile(){
-/*
+function readmyfile3(){
+
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
 
 $fp = fopen($filename, "r");
@@ -399,7 +461,6 @@ while (true) {
     $line = fgets($fp, 1024); // blocking
     echo $line;
 }
-*/
 }
 
 
@@ -465,9 +526,30 @@ function clearall() {
  rtl433_devices: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
 EOD;
-
-
   parent::dbInstall($data);
+
+
+ $data = <<<EOD
+ rtl433_commands: ID int(10) unsigned NOT NULL auto_increment
+ rtl433_commands: TITLE varchar(100) NOT NULL DEFAULT ''
+ rtl433_commands: VALUE varchar(255) NOT NULL DEFAULT ''
+ rtl433_commands: DEVICE_ID int(10) NOT NULL DEFAULT '0'
+ rtl433_commands: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
+ rtl433_commands: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
+ rtl433_commands: LINKED_METHOD varchar(100) NOT NULL DEFAULT '' 
+ rtl433_commands: UPDATED datetime
+EOD;
+  parent::dbInstall($data);
+
+
+ $data = <<<EOD
+ rtl433_devicelist: ID int(10) unsigned NOT NULL auto_increment
+ rtl433_devicelist: ENABLE int(10) unsigned NOT NULL auto_increment
+ rtl433_devicelist: NAME varchar(100) NOT NULL DEFAULT ''
+EOD;
+  parent::dbInstall($data);
+
+
 
   $data = <<<EOD
  rtl433_config: parametr varchar(300)
@@ -511,4 +593,3 @@ SQLInsert('rtl433_config', $par);
 * TW9kdWxlIGNyZWF0ZWQgTWFyIDEzLCAyMDE2IHVzaW5nIFNlcmdlIEouIHdpemFyZCAoQWN0aXZlVW5pdCBJbmMgd3d3LmFjdGl2ZXVuaXQuY29tKQ==
 *
 */
-
