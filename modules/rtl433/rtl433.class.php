@@ -225,6 +225,15 @@ $this->clearall();
  }
 
 
+ if ($this->view_mode=='config_checkall') {
+   $this->config_checkall();
+ }
+
+ if ($this->view_mode=='config_uncheckall') {
+   $this->config_uncheckall();
+ }
+
+
 
 
 }
@@ -260,6 +269,17 @@ SQLUpdate('rtl433_devicelist',$rec);
    $rec['ENABLE']=0;
 SQLUpdate('rtl433_devicelist',$rec); 
 } 
+
+ function config_uncheckall() {
+  $rec=SQLexec("update rtl433_devicelist set ENABLE=0 ");
+
+} 
+
+ function config_checkall() {
+  $rec=SQLexec("update rtl433_devicelist set ENABLE=1 ");
+
+} 
+
 
 
 
