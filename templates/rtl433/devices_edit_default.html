@@ -70,6 +70,16 @@
 		</div>
 		[#endif#]
 
+
+		[#if json!=""#]
+		<div class="form-group">
+			<label class="col-lg-3 control-label"[#if ERR_json#] style="color:red;font-weight:bold"[#endif#]>
+			 humidity:
+			</label>
+			<div class="col-lg-4">[#json#]</div>
+		</div>
+		[#endif#]
+
 		
 
 		
