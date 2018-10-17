@@ -446,6 +446,7 @@ foreach ($par as $key=> $value){
 //echo 
 $newrec['TITLE']=$key;
 $newrec['VALUE']=$value;
+$newrec['DEVICE_ID']=$newid;
 SQLUpdate('rtl433_commands',$newrec); 
 }
 
@@ -468,6 +469,7 @@ $newrec=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
 foreach ($par as $key=> $value){
 //echo 
 $newrec['TITLE']=$key;
+$newrec['DEVICE_ID']=$newid;
 $newrec['VALUE']=$value;
 SQLInsert('rtl433_commands',$newrec); 
 }
