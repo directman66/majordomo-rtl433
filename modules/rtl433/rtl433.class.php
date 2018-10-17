@@ -381,7 +381,7 @@ function readmyfile() {
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
 
 $a=shell_exec("
-tail -n 5 $filename");
+tail -n 50 $filename");
 //echo $a;
 
 $aray =explode("}", $a);
@@ -401,24 +401,86 @@ $src=json_decode(trim($json),true);
 
 //print_r($src);
 $par=array();
+
 foreach ($src as $key=> $value ) {   
 if ($key=='id' ) {  $param=$key.'dev';} else  {$param=$key;}
 $par[$param] = $value;
 }     
 $par['json']=$json;
 
+
 $model=$par['model'];
 $channel=$par['channel'];
+
+$par1=array();
+$par1['model']=$par['model'];
+//echo $par1['model'].":".par['model'].':'.$model;
+$par1['json']=$par['json'];
+if ($par['iddev']) $par1['iddev']=$par['iddev'];
+$par1['channel']=$par['channel'];
+$par1['time']=$par['time'];
+if ($par['battery']) $par1['battery']=$par['battery'];
+if ($par['temperature_C']) $par1['temperature_C']=$par['temperature_C'];
+if ($par['humidity']) $par1['humidity']=$par['humidity'];
+if ($par['sid']) $par1['iddev']=$par['sid'];
+
+
+
 $sql="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
-//echo $sql;
-$new=SQLSelect($sql);
-if ($new[0]['ID']) {
+//echo "<br>".$sql;
+$new=SQLSelectOne($sql);
+if ($new['ID']) {
 //update
-SQLUpdate('rtl433_devices',$par); 
+//echo $new['ID'];
+echo 'update';
+
+
+SQLUpdate('rtl433_devices',$par1); 
+
+$newrec=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
+$newid=$newrec['ID'];
+
+$newrec=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
+
+foreach ($par as $key=> $value){
+//echo 
+$newrec['TITLE']=$key;
+$newrec['VALUE']=$value;
+SQLUpdate('rtl433_commands',$newrec); 
+}
+
+
+
 
 } else {
 //newrecord
-if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}			
+echo 'newrecord';
+if ($par['model']<>'') {
+
+SQLInsert('rtl433_devices', $par1);	
+
+$newrec=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
+$newid=$newrec['ID'];
+
+$newrec=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
+
+
+foreach ($par as $key=> $value){
+//echo 
+$newrec['TITLE']=$key;
+$newrec['VALUE']=$value;
+SQLInsert('rtl433_commands',$newrec); 
+}
+           
+}
+
+
+
+
+
+
+
+}			
 }}
 
 
@@ -426,7 +488,7 @@ if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}
 
 
 
-}
+
 
 function readmyfile5() {
 
@@ -558,6 +620,7 @@ function delete_once($id) {
 
 function clearall() {
   SQLExec("DELETE FROM rtl433_devices");
+  SQLExec("DELETE FROM rtl433_commands");
   $this->redirect("?");
  }
 
