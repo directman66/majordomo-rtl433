@@ -568,6 +568,7 @@ function clearall() {
   SQLExec('DROP TABLE IF EXISTS rtl433_devices');
   SQLExec('DROP TABLE IF EXISTS rtl433_config');
   SQLExec('DROP TABLE IF EXISTS rtl433_devicelist');
+  SQLExec('DROP TABLE IF EXISTS rtl433_commands');
   SQLExec('delete from settings where NAME like "%RTL433%"');
   parent::uninstall();
 
