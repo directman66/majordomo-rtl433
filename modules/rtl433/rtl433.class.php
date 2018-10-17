@@ -968,6 +968,259 @@ $par1['ENABLE'] = 0;
 $par1['NAME'] = "Schrader TPMS";		 
 SQLInsert('rtl433_devicelist', $par1);						
 
+
+
+///////
+
+$par1['ID'] = 61;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "LightwaveRF";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 62;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Elro DB286A Doorbell";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 63;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Efergy Optical";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 64;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Honda Car Key";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 65;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Template decoder";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 66;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Template decoder";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 67;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "Radiohead ASK";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 68;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Kerui PIR Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 69;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Kerui PIR Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 70;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Honeywell Door/Window Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 71;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Maverick ET-732/733 BBQ Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 72;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "RF-tech";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 73;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "LaCrosse TX141-Bv2/TX141TH-Bv2 sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 74;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Acurite 00275rm,00276rm Temp/Humidity with optional probe";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 75 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "LaCrosse TX35DTH-IT, TFA Dostmann 30.3155 Temperature/Humidity sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 76;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "LaCrosse TX29IT Temperature sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 77;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Vaillant calorMatic 340f Central Heating Control";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 78;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Fine Offset Electronics, WH25, WH24, HP1000 Temperature/Humidity/Pressure Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 79 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Fine Offset Electronics, WH0530 Temperature/Rain Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 80;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "IBIS beacon";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 81;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "Oil Ultrasonic STANDARD FSK";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 82;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Citroen TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 83;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Oil Ultrasonic STANDARD ASK";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 84;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Thermopro TP11 Thermometer";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 85;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Solight TE44";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 86;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Wireless Smoke and Heat Detector GS 558";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 87;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Generic wireless motion sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 88;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Toyota TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 89;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Ford TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 90;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Renault TPMS";		 
+SQLInsert('rtl433_devicelist', $par1);						
+/////////////////////////////
+$par1['ID'] = 91;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "inFactory";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 92;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "FT-004-B Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 93;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Ford Car Key";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 94;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Philips outdoor temperature sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 95;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "Schrader TPMS EG53MA4";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 96;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Nexa";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 97;
+$par1['ENABLE'] = 0  ;
+$par1['NAME'] = "Thermopro TP08/TP12 thermometer";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 98;
+$par1['ENABLE'] = 1;
+$par1['NAME'] = "GE Color Effects";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 99;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "X10 Security";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 100;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Interlogix GE UTC Security Devices";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 101;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Dish remote 6.3";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 102;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "SimpliSafe Home Security System (May require disabling automatic gain for KeyPad decodes)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 103;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Sensible Living Mini-Plant Moisture Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 104;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Wireless M-Bus, Mode C&T, 100kbps (-f 868950000 -s 1200000)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 105 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Wireless M-Bus, Mode S, 32.768kbps (-f 868300000 -s 1000000)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 106;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Wireless M-Bus, Mode R, 4.8kbps (-f 868330000)";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 107;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "Wireless M-Bus, Mode F, 2.4kbps";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 108;
+$par1['ENABLE'] = 0 ;
+$par1['NAME'] = "WS Temperature Sensor";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+$par1['ID'] = 109 ;
+$par1['ENABLE'] = 0;
+$par1['NAME'] = "WT0124 Pool Thermometer";		 
+SQLInsert('rtl433_devicelist', $par1);						
+
+
+
+
+
 }
 
 /*
