@@ -172,8 +172,9 @@ if ($mhdevices[0]['ID']) {
 }
 
 
-$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='ENABLE'");
- $out['ENABLE']=$mhdevices['value'];
+$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='ENABLECYCLE'");
+ $out['ENABLECYCLE']=$mhdevices['value'];
+
 
 $mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='EVERY'");
  $out['EVERY']=$mhdevices['value'];
@@ -316,6 +317,8 @@ SQLUpdate('rtl433_devicelist',$rec);
 
 
  function start() {
+SQLexec("update rtl433_config set value='1' where parametr='ENABLECYCLE' ");
+
 $cmd='sudo modprobe -r dvb_usb_rtl28xxu';
 $answ=shell_exec($cmd);
 //echo $answ;
@@ -387,6 +390,7 @@ SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
  }
 
 function stop() {
+SQLexec("update rtl433_config set value='1' where parametr='ENABLECYCLE' ");
 echo "stopping";
 $cmd='sudo killall rtl_433 ';
 $answ=shell_exec($cmd);
@@ -413,8 +417,12 @@ foreach ($aray as $val)
 $json=$val." }";
 //echo $json;
 
+$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='ENABLECYCLE'");
+$enable=$mhdevices['value'];
 
-if (substr($json,1,13)=="Signal caught") {$this->start();}
+
+
+if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start();}
 if (substr($json,1,1)=="{")
 { 
 //$json=$line;
@@ -450,6 +458,8 @@ $par1['time']=$par['time'];
 $partime=$par['time'];
 
 $partimets=time();
+
+
 
 SQLexec("update rtl433_config set VALUE='$partime' where parametr='LASTCYCLE_TXT'");
 SQLexec("update rtl433_config set VALUE='$partimets' where parametr='LASTCYCLE'");
@@ -666,7 +676,7 @@ $par['value'] = "";
 SQLInsert('rtl433_config', $par);						
 
 
-$par['parametr'] = 'ENABLE';
+$par['parametr'] = 'ENABLECYCLE';
 $par['value'] = "1";		 
 SQLInsert('rtl433_config', $par);						
 
