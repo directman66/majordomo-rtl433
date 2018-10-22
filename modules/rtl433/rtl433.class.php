@@ -399,6 +399,8 @@ foreach ($aray as $val)
 $json=$val." }";
 //echo $json;
 
+
+if (substr($json,1,13)=="Signal caught") {$this->start();}
 if (substr($json,1,1)=="{")
 { 
 //$json=$line;
@@ -411,16 +413,19 @@ $src=json_decode(trim($json),true);
 //print_r($src);
 $par=array();
 
+///общий
 foreach ($src as $key=> $value ) {   
-if ($key=='id' ) {  $param=$key.'dev';} else  {$param=$key;}
-$par[$param] = $value;
+if ($key=='id' ) {$param=$key.'dev';} else  {$param=$key;}
+$par[$param]=$value;
 }     
 $par['json']=$json;
+
 
 
 $model=$par['model'];
 $channel=$par['channel'];
 
+///для devices
 $par1=array();
 $par1['model']=$par['model'];
 //echo $par1['model'].":".par['model'].':'.$model;
@@ -428,6 +433,9 @@ $par1['json']=$par['json'];
 if ($par['iddev']) $par1['iddev']=$par['iddev'];
 $par1['channel']=$par['channel'];
 $par1['time']=$par['time'];
+
+SqlSelectOne('update ');
+
 if ($par['battery']) $par1['battery']=$par['battery'];
 if ($par['temperature_C']) $par1['temperature_C']=$par['temperature_C'];
 if ($par['humidity']) $par1['humidity']=$par['humidity'];
@@ -435,182 +443,88 @@ if ($par['sid']) $par1['iddev']=$par['sid'];
 
 
 
-$sql="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
-//echo "<br>".$sql;
-$new=SQLSelectOne($sql);
-if ($new['ID']) {
-//update
-//echo $new['ID'];
-echo 'update';
 
 
+$sql1="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
+//echo $sql1;
+$new=SQLSelectOne($sql1);
+//echo "newid=".$new['ID']."<br>";
+//echo "<br>";
+
+if (!$new['ID']) 
+{
+SQLInsert('rtl433_devices',$par1); 
+}
+else
+{
 SQLUpdate('rtl433_devices',$par1); 
+}
 
-$newrec=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
-$newid=$newrec['ID'];
 
-$newrec=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
+$newdevices=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
+$newid=$newdevices['ID'];
 
+$newcommands=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
+//$pr=print_r($par);
+//echo "<br>Добавляем: ".$pr."<br>";
+//sg('test.rtl433',print_r($par));
 foreach ($par as $key=> $value){
-//echo 
-$newrec['TITLE']=$key;
-$newrec['VALUE']=$value;
-$newrec['DEVICE_ID']=$newid;
-SQLUpdate('rtl433_commands',$newrec); 
+//echo $key.":".$value;
+//echo $key.":".$value." ";
+$newcommands['TITLE']=$key;
+$newcommands['VALUE']=$value;
+$newcommands['DEVICE_ID']=$newid;
+$newcommands['UPDATED']=date('Y-m-d H:i:s');
+$sql2="select * from rtl433_commands where DEVICE_ID='$newid' and 'TITLE'='$key'";
+//echo $sql2;
+//echo $newcommands['ID'];
+if (SQLSelectOne($sql2)['ID'])
+{
+echo "1";
+SQLUpdate('rtl433_commands',$newcommands);
+} 
+
+if (!SQLSelectOne($sql2)['ID'])
+{
+echo "2";
+SQLInsert('rtl433_commands',$newcommands); 
+echo "21";
+} 
 }
 
 
 
 
-} else {
-//newrecord
-echo 'newrecord';
-if ($par['model']<>'') {
+ 
 
-SQLInsert('rtl433_devices', $par1);	
-
-$newrec=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
-$newid=$newrec['ID'];
-
-$newrec=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
-
-
-foreach ($par as $key=> $value){
-//echo 
-$newrec['TITLE']=$key;
-$newrec['DEVICE_ID']=$newid;
-$newrec['VALUE']=$value;
-SQLInsert('rtl433_commands',$newrec); 
-}
-           
-}
-
-
-
-
-
-
-
-}			
+ 	}
 }}
 
 
-}
 
 
 
 
+ function processCycle() {
+   $this->getConfig();
+   $every=$this->config['EVERY'];
+   $tdev = time()-$this->config['LATEST_UPDATE'];
+   $has = $tdev>$every*60;
+   if ($tdev < 0) {
+		$has = true;
+   }
+   
+   if ($has) {  
+$this->readmyfile();   
 
-function readmyfile5() {
+		 
+	$this->config['LATEST_UPDATE']=time();
+	//$this->saveConfig();
+SQLexec("update rtl433_config set value=UNIX_TIMESTAMP() where parametr='LASTCYCLE_TS'");		   
+SQLexec("update rtl433_config set value=now() where parametr='LASTCYCLE_TXT'");		   	   
 
-$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
-
-
-
-define("TEXT_FILE", $filename);
-// number of lines to read from the end of file
-define("LINES_COUNT", 10);
- 
- 
-function read_file($file, $lines) {
-    //global $fsize;
-    $handle = fopen($file, "r");
-    $linecounter = $lines;
-    $pos = -2;
-    $beginning = false;
-    $text = array();
-    while ($linecounter > 0) {
-        $t = " ";
-        while ($t != "\n") {
-            if(fseek($handle, $pos, SEEK_END) == -1) {
-                $beginning = true; 
-                break; 
-            }
-            $t = fgetc($handle);
-            $pos --;
-        }
-        $linecounter --;
-        if ($beginning) {
-            rewind($handle);
-        }
-        $text[$lines-$linecounter-1] = fgets($handle);
-        if ($beginning) break;
-    }
-    fclose ($handle);
-    return array_reverse($text);
-}
- 
-$fsize = round(filesize(TEXT_FILE)/1024/1024,2);
-$lines = read_file(TEXT_FILE, LINES_COUNT);
-foreach ($lines as $line) {
-//    echo $line;
-if (substr($line,1,1)=="{")
-{ $json=$line;
-echo $json;
-SQLexec("update rtl433_config set VALUE='$json' where parametr='JSON'");
-
-$src=json_decode($json,true);
-$par=array();
-foreach ($src as $key=> $value ) {   
-if ($key=='id' ) {  $param=$key.'dev';} else  {$param=$key;}
-$par[$param] = $value;
-}     
-$par['json']=$json;
-
-$model=$par['model'];
-$channel=$par['channel'];
-
-$new=SQLSelect("SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ");
-if ($new[0]['ID']) {
-//update
-SQLUpdate('rtl433_devices',$par); 
-
-} else {
-//newrecord
-if ($par['model']<>'') {SQLInsert('rtl433_devices', $par);	}			
-}}
-
-
-}                   	
-
-
-}
-
-
-
-
-function readmyfile3(){
-
-$filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
-
-$fp = fopen($filename, "r");
-fseek($fp, -500, SEEK_END); // 500 bytes back
-
-// get the last 10 lines
-$line_buffer = array();
-while (!feof($fp)) {
-    $line = fgets($fp, 1024);
-    $line_buffer[] = $line;
-    $line_buffer = array_slice($line_buffer, -10, 10);
-}
-// the above can be made to work quicker, but it'd use more memory
-
-// print those lines
-foreach ($line_buffer as $line) {
-    echo $line;
-}
-
-// print new changes
-while (true) {
-    $line = fgets($fp, 1024); // blocking
-    echo $line;
-}
-}
-
-
-
- 
-
+   } 
+  }
 
 /**
 * Install
@@ -671,7 +585,7 @@ function clearall() {
  rtl433_devices: temperature_C varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: humidity varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: FIND varchar(100) NOT NULL DEFAULT ''
- rtl433_devices: json varchar(100) NOT NULL DEFAULT ''
+ rtl433_devices: json varchar(700) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_OBJECT varchar(100) NOT NULL DEFAULT ''
  rtl433_devices: LINKED_PROPERTY varchar(100) NOT NULL DEFAULT ''
 EOD;
@@ -707,12 +621,8 @@ EOD;
    parent::dbInstall($data);
 
   $mhdevices=SQLSelect("SELECT *  FROM rtl433_config");
-  if ($mhdevices[0]['ID']) 
-
-{}else{
-
-
-
+  if (!$mhdevices[0]['ID']) 
+{
 $par['parametr'] = 'EVERY';
 $par['value'] = 30;		 
 SQLInsert('rtl433_config', $par);				
