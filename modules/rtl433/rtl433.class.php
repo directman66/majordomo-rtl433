@@ -138,7 +138,7 @@ $out['APPRUN'] = 0;
      } 
 
  $this->getConfig();
-        if ((time() - gg('cycle_yandexweatherRun')) < 360*2 ) {
+        if ((time() - gg('cycle_rtl433Run')) < 360*2 ) {
 			$out['CYCLERUN'] = 1;
 		} else {
 			$out['CYCLERUN'] = 0;
