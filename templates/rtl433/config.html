@@ -1,0 +1,40 @@
+<!-- Table 'miio_devices' edit -->
+<form action="?" method="post" enctype="multipart/form-data" name="frmEdit" class="form-horizontal">
+
+<div class="form-group">
+ <div class="controls">
+ <label>Автозапуск цикла:&nbsp;&nbsp;
+ <input type="checkbox" name="enable" value="1"[#if ENABLE="1"#] checked[#endif#]> 
+</label>
+ </div>
+</div>
+
+
+
+ [#begin PROPERTIES#]
+
+ [#end PROPERTIES#]
+
+<div class="form-group">
+        <div class="col-lg-offset-3 col-lg-4">
+ [#if ID!=""#]
+ <button type="submit" name="subm" value="Submit" class="btn btn-primary"><#LANG_SUBMIT#></button>
+ [#else ID#]
+ <button type="submit" name="subm" value="Add" class="btn btn-primary"><#LANG_ADD#></button>
+ [#endif ID#]
+ <a href="?data_source=<#DATA_SOURCE#>" class="btn btn-default "><#LANG_STRING_BACK#></a>
+<input type="hidden" name="id" value="<#ID#>">
+<input type="hidden" name="view_mode" value="<#VIEW_MODE#>">
+<input type="hidden" name="edit_mode" value="<#EDIT_MODE#>">
+<input type="hidden" name="mode" value="update">
+<input type="hidden" name="data_source" value="<#DATA_SOURCE#>">
+<input type="hidden" name="tab" value="<#TAB#>">
+        </div>
+</div>
+</fieldset>
+</form>
+<!-- dataset2 (module) -->
+<div class="form-group">
+</div>
+
+ 
