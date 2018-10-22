@@ -131,11 +131,20 @@ $out['MSG_PS']=$answ;
 $rez=substr_count  ($answ,'433' );
 //echo $rez;
 if ($rez=="1" ){
-$out['CYCLERUN'] = 1;
+$out['APPRUN'] = 1;
 } 
 else {
-$out['CYCLERUN'] = 0;
+$out['APPRUN'] = 0;
      } 
+
+ $this->getConfig();
+        if ((time() - gg('cycle_yandexweatherRun')) < 360*2 ) {
+			$out['CYCLERUN'] = 1;
+		} else {
+			$out['CYCLERUN'] = 0;
+		}
+
+
 ////////////
 
 
