@@ -169,8 +169,22 @@ $out['MSG_DEBUG']=$a;
 $mhdevices=SQLSelect("SELECT * FROM rtl433_devices");
 if ($mhdevices[0]['ID']) {
  $out['DEVICES']=$mhdevices;
+}
 
-    }
+
+$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='ENABLE'");
+ $out['ENABLE']=$mhdevices['value'];
+
+$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='EVERY'");
+ $out['EVERY']=$mhdevices['value'];
+
+$mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='WORK'");
+ $out['WORK']=$mhdevices['value'];
+
+
+
+// $out['ENABLE']=1;
+
 
 
  if ($this->view_mode=='update_settings') {
@@ -433,8 +447,12 @@ $par1['json']=$par['json'];
 if ($par['iddev']) $par1['iddev']=$par['iddev'];
 $par1['channel']=$par['channel'];
 $par1['time']=$par['time'];
+$partime=$par['time'];
 
-SqlSelectOne('update ');
+$partimets=time();
+
+SQLexec("update rtl433_config set VALUE='$partime' where parametr='LASTCYCLE_TXT'");
+SQLexec("update rtl433_config set VALUE='$partimets' where parametr='LASTCYCLE'");
 
 if ($par['battery']) $par1['battery']=$par['battery'];
 if ($par['temperature_C']) $par1['temperature_C']=$par['temperature_C'];
@@ -645,6 +663,11 @@ SQLInsert('rtl433_config', $par);
 
 $par['parametr'] = 'WORK';
 $par['value'] = "";		 
+SQLInsert('rtl433_config', $par);						
+
+
+$par['parametr'] = 'ENABLE';
+$par['value'] = "1";		 
 SQLInsert('rtl433_config', $par);						
 
 
