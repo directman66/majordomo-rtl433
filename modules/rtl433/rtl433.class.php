@@ -208,6 +208,8 @@ $mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='WORK'");
 //echo $this->tab;
 
 if ($this->view_mode=='start') {
+setGlobal('cycle_rtl433AutoRestart','1');	 	 
+setGlobal('cycle_rtl433AutoRestart','1');	 	 
 $this->start();
 }  
 
@@ -534,9 +536,10 @@ echo "21";
 
 
  function processCycle() {
-   $this->getConfig();
-   $every=$this->config['EVERY'];
-   $tdev = time()-$this->config['LATEST_UPDATE'];
+/*
+//   $this->getConfig();
+//   $every=$this->config['EVERY'];
+//   $tdev = time()-$this->config['LATEST_UPDATE'];
    $has = $tdev>$every*60;
    if ($tdev < 0) {
 		$has = true;
@@ -546,12 +549,12 @@ echo "21";
 $this->readmyfile();   
 
 		 
-	$this->config['LATEST_UPDATE']=time();
 	//$this->saveConfig();
 SQLexec("update rtl433_config set value=UNIX_TIMESTAMP() where parametr='LASTCYCLE_TS'");		   
 SQLexec("update rtl433_config set value=now() where parametr='LASTCYCLE_TXT'");		   	   
 
    } 
+*/
   }
 
 /**
