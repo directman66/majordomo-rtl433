@@ -5,9 +5,10 @@
 		<a data-toggle="collapse" data-parent="#accordion" href="#sms_help">Информация</a>
 		</div>
 		<div class="panel-body collapse" id="sms_help">
-Модуль для считывания информации информации с датчиков и кнопок по протоколу 433 с помошью SDR тюнера.
-			
-			
+Модуль для работы с USB RTL-SDR тв-тюнерами (стиками) на чипе RTL2832. 
+Модуль работает на linux системах (debian, ubuntu, armbian и др. клонов, основанных на debian). Версия модуля пока pre-alphа.
+Предварительно должен быть установлен и откомпилирован пакет rtl_433 под вашу систему.
+Установка на других системах, где нет apt-get также возможна, но команды будут другие.
 			</br>     </br>
 
 	
@@ -19,11 +20,37 @@
 		<div class="panel-heading">
 		<a data-toggle="collapse" data-parent="#accordion" href="#nach">Установка</a>
 		</div>
+Подключаетесь к системе через telnet или ssh
+2) выполняете следующие команды:
+<code>		
+sudo apt-get install make cmake
+git clone -b feat-rcswitch https://github.com/zuckschwerdt/rtl_433.git 
+git clone https://github.com/zuckschwerdt/rtl_433.git rtl_433_rcswitch
+cd rtl_433_rcswitch
+mkdir build
+cd build
+cmake ..
+make
+</code>
 		<div class="panel-body collapse" id="nach">
 		<p>
 		</div> </div> </div>
 
-		
+
+<div class="panel-group" id="accordion">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+		<a data-toggle="collapse" data-parent="#accordion" href="#cont">Список поддерживаемых устройств</a>
+		</div>
+		<div class="panel-body collapse" id="spisok">
+		<p>
+[#inc spisok.html#]
+<br></br>
+
+
+		</div> </div> </div>
+
+
 <div class="panel-group" id="accordion">
 	<div class="panel panel-info">
 		<div class="panel-heading">
@@ -32,7 +59,7 @@
 		<div class="panel-body collapse" id="cont">
 		<p>
 <a href="https://github.com/directman66/majordomo-magichome" target="_blank">Ссылка на репозиторий</a><br>
-<a href="" target="_blank">Тема на форуме</a>.<br>
+<a href="http://majordomo.smartliving.ru/forum/viewtopic.php?f=5&t=5833&p=90391#p90391" target="_blank">Тема на форуме</a>.<br>
 
 <br></br>
 
