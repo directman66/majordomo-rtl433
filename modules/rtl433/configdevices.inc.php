@@ -8,4 +8,3 @@ $table_name='rtl433_devicelist';
 
 
     }
-
