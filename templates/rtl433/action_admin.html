@@ -29,13 +29,17 @@ padding: .3em 1em
 		<span class="label label-danger" title="Статус цикла">Цикл остановлен</span>
 	[#endif#]
 
- &nbsp; 	
-	
-&nbsp;&nbsp;&nbsp;&nbsp;	
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
 	[#if APPRUN==1#]
 		<span class="label label-success" title="Статус приложения">rtl433 запущен</span>
 	[#else#]
 		<span class="label label-danger" title="Статус приложения">rtl433 остановлен</span>
+	[#endif#]
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+	[#if ENABLE==1#]
+		<span class="label label-success" title="Разрешен запуск">перезапуск разрешен</span>
+	[#else#]
+		<span class="label label-danger" title="Разрешен запуск">перезапуск запрещен</span>
 	[#endif#]
 
  &nbsp; 
