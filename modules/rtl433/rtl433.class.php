@@ -378,13 +378,14 @@ $parametrs.=' -R'.$sql[$i]['ID'].' ';
 //вариант через файл и tail
 //$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json -W ".ROOT."cms/cached/rtl433";
 unlink(ROOT."cms/cached/rtl433");
-$cmd="$rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json >".ROOT."cms/cached/rtl433";
-//echo $cmd;
+$cmd="sudo $rtlpath/rtl_433 $parametrs -f 433920000 -s 250000 -F json >".ROOT."cms/cached/rtl433";
+//$cmd="rtl_433 $parametrs -f 433920000 -s 250000 -F json >".ROOT."cms/cached/rtl433";
+echo $cmd;
 
 //$cmd='rtl_433 -f 433920000 -s 250000 -F json|mosquitto_pub -h localhost -t /home/rtl_433  -l';
 //$answ=shell_exec($cmd);
 $answ=exec($cmd ."  2>&1 &");
-
+echo $answ;
 SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
 //echo $answ;
 
@@ -687,6 +688,9 @@ SQLInsert('rtl433_config', $par);
 
 
 //////////
+$par1=SQLSelectOne ("select * from rtl433_devicelist where ID=1");
+
+if (!$par1['ID']) {
 $par1['ID'] = 1;
 $par1['ENABLE'] = 1;
 $par1['NAME'] = "Silvercrest Remote Control";		 
@@ -1239,7 +1243,7 @@ $par1['NAME'] = "WT0124 Pool Thermometer";
 SQLInsert('rtl433_devicelist', $par1);						
 
 
-
+}
 
 
 }
