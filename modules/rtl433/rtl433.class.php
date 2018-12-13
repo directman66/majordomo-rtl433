@@ -145,6 +145,11 @@ $out['APPRUN'] = 0;
 		}
 
 
+
+$enablecycle=SQLSelectOne("select value from rtl433_config  where parametr='ENABLECYCLE' ")['value'];
+
+$out['ENABLE'] = $enablecycle;
+
 ////////////
 
 
@@ -400,7 +405,7 @@ SQLexec("update rtl433_config set VALUE='$answ' where parametr='WORK'");
  }
 
 function stop() {
-SQLexec("update rtl433_config set value='1' where parametr='ENABLECYCLE' ");
+SQLexec("update rtl433_config set value='0' where parametr='ENABLECYCLE' ");
 echo "stopping";
 $cmd='sudo killall rtl_433 ';
 $answ=shell_exec($cmd);
@@ -416,7 +421,10 @@ echo $answ;
 
 function readmyfile() {
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
-if (!file_exists($filename)) {$this->start();}
+$enablecycle=SQLSelectOne("select value from rtl433_config  where parametr='ENABLECYCLE' ")['value'];
+
+
+if ((!file_exists($filename))&&($enablecycle==1)) {$this->start();}
 $a=shell_exec("tail -n 50 $filename");
 //echo $a;
 
@@ -431,8 +439,8 @@ $enable=$mhdevices['value'];
 
 
 
-//if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start(); break;}
-if (substr($json,1,13)=="Signal caught") {$this->start(); }
+if ((substr($json,1,13)=="Signal caught")&&($$enablecycle=='1')) {$this->start(); }
+//if (substr($json,1,13)=="Signal caught") {$this->start(); }
 if (substr($json,1,1)=="{")
 { 
 //$json=$line;
