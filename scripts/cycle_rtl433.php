@@ -10,7 +10,7 @@ include_once("./load_settings.php");
 include_once(DIR_MODULES . "control_modules/control_modules.class.php");
 $ctl = new control_modules();
 include_once(DIR_MODULES . 'rtl433/rtl433.class.php');
-$rtl433_module = new rtl433_module();
+$rtl433_module = new rtl433();
 
  
 echo date("H:i:s") . " running " . basename(__FILE__) . PHP_EOL;
