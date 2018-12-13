@@ -353,7 +353,8 @@ $host = trim(str_replace(':','',$res));
 //$host='192.168.1.39';
 
 
-$rtlpath='/home/pi/rtl_433_rcswitch/build/src';
+//$rtlpath='/home/pi/rtl_433_rcswitch/build/src';
+$rtlpath=ROOT.'modules/rtl433/rtl_433/build/src';
 //$parametrs='-R 19 -R 1 -R 30 ';
 $parametrs="";
 $sql=sqlselect('select * from rtl433_devicelist where ENABLE=1');
