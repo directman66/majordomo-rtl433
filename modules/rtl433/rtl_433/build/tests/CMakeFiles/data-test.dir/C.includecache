@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/data.h
+stdio.h
+-
+malloc.h
+-
+string.h
+-
+strings.h
+-
+
+/var/www/modules/rtl433/rtl_433/tests/data-test.c
+stdio.h
+-
+data.h
+/var/www/modules/rtl433/rtl_433/tests/data.h
+

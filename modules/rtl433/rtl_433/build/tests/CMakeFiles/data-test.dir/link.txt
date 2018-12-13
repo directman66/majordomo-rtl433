@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -rdynamic CMakeFiles/data-test.dir/data-test.c.o  -o data-test ../src/libdata.a 
