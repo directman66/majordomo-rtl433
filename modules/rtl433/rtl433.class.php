@@ -209,14 +209,14 @@ $mhdevices=SQLSelectOne("SELECT * FROM rtl433_config where parametr='WORK'");
 
 if ($this->view_mode=='start') {
 setGlobal('cycle_rtl433AutoRestart','1');	 	 
-setGlobal('cycle_rtl433AutoRestart','1');	 	 
+setGlobal('cycle_rtl433Control','restart'); 
 $this->start();
 $this->redirect("?tab=debug");
 }  
 
 if ($this->view_mode=='read') {
 $this->readmyfile();
-//$this->redirect("?");
+$this->redirect("?");
 }  
 
 
@@ -413,7 +413,7 @@ echo $answ;
 
 function readmyfile() {
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
-
+if (!file_exists($filename)) {$this->start();}
 $a=shell_exec("tail -n 50 $filename");
 //echo $a;
 
@@ -428,7 +428,8 @@ $enable=$mhdevices['value'];
 
 
 
-if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start(); break;}
+//if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start(); break;}
+if (substr($json,1,13)=="Signal caught") {$this->start(); }
 if (substr($json,1,1)=="{")
 { 
 //$json=$line;
@@ -447,8 +448,8 @@ if ($key=='id' ) {$param=$key.'dev';} else  {$param=$key;}
 $par[$param]=$value;
 }     
 $par['json']=$json;
-echo "<br>";
-print_r($par);
+//echo "<br>";
+//print_r($par);
 
 
 
@@ -457,8 +458,8 @@ $channel=$par['channel'];
 
 
 $sql1="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
-echo "<br>";
-echo $sql1;
+//echo "<br>";
+//echo $sql1;
 $new=SQLSelectOne($sql1);
 
 $new['model']=$par['model'];
@@ -483,17 +484,17 @@ $devid=SQLUpdate('rtl433_devices',$new);
 
 
 $sql1="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
-echo "<br>";
-echo $sql1;
+//echo "<br>";
+//echo $sql1;
 $devid=SQLSelectOne($sql1)['ID'];
 
 
-echo "<br>devid:".$devid."<br>";
+//echo "<br>devid:".$devid."<br>";
 
 foreach ($par as $key=> $value){
 
 $sql2="select * from rtl433_commands where DEVICE_ID='$devid' and TITLE='$key'";
-echo $sql2."<br>";
+//echo $sql2."<br>";
 $recc=SQLSelectOne($sql2);
 
 $recc['TITLE']=$key;
@@ -508,6 +509,12 @@ else
 {
 SQLUpdate('rtl433_commands',$recc);
 } 
+
+if ($recc['LINKED_OBJECT']!='' && $recc['LINKED_PROPERTY']!='') {
+setGlobal($recc['LINKED_OBJECT'].'.'.$recc['LINKED_PROPERTY'], $value,array($this->name => '0'));
+}
+
+
 } //перебор 2
 
 
@@ -520,10 +527,10 @@ SQLUpdate('rtl433_commands',$recc);
 
 
  function processCycle() {
-/*
-//   $this->getConfig();
-//   $every=$this->config['EVERY'];
-//   $tdev = time()-$this->config['LATEST_UPDATE'];
+
+   $this->getConfig();
+   $every=$this->config['EVERY'];
+   $tdev = time()-$this->config['LATEST_UPDATE'];
    $has = $tdev>$every*60;
    if ($tdev < 0) {
 		$has = true;
@@ -538,7 +545,7 @@ SQLexec("update rtl433_config set value=UNIX_TIMESTAMP() where parametr='LASTCYC
 SQLexec("update rtl433_config set value=now() where parametr='LASTCYCLE_TXT'");		   	   
 
    } 
-*/
+
   }
 
 /**
