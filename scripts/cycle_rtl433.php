@@ -15,7 +15,7 @@ $rtl433_module = new rtl433_module();
  
 echo date("H:i:s") . " running " . basename(__FILE__) . PHP_EOL;
 $latest_check=0;
-$checkEvery=60; // poll every 5 minutesz
+$checkEvery=300; // poll every 5 minutesz
 
 while (1)
 {
