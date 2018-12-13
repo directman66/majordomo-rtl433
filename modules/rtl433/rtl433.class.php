@@ -154,7 +154,7 @@ $out['APPRUN'] = 0;
 
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
 
-$a=shell_exec("tail -n 100 $filename");
+$a=shell_exec("tail -n 400 $filename");
 //$a=shell_exec("cat $filename");
 //$a=str_replace(chr(13),'<br>',$a);
 //$a=str_replace ("\r\n", "<br>", $a);
@@ -211,16 +211,19 @@ if ($this->view_mode=='start') {
 setGlobal('cycle_rtl433AutoRestart','1');	 	 
 setGlobal('cycle_rtl433AutoRestart','1');	 	 
 $this->start();
+$this->redirect("?tab=debug");
 }  
 
 if ($this->view_mode=='read') {
 $this->readmyfile();
+//$this->redirect("?");
 }  
 
 
 
 if ($this->view_mode=='stop') {
 $this->stop();
+$this->redirect("?");
 }  
 
 if ($this->view_mode=='delete_devices') {
@@ -411,8 +414,7 @@ echo $answ;
 function readmyfile() {
 $filename = ROOT.'cms/cached/rtl433'; // полный путь к нужному файлу
 
-$a=shell_exec("
-tail -n 50 $filename");
+$a=shell_exec("tail -n 50 $filename");
 //echo $a;
 
 $aray =explode("}", $a);
@@ -426,7 +428,7 @@ $enable=$mhdevices['value'];
 
 
 
-if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start();}
+if ((substr($json,1,13)=="Signal caught")&&($enable='1')) {$this->start(); break;}
 if (substr($json,1,1)=="{")
 { 
 //$json=$line;
@@ -445,91 +447,71 @@ if ($key=='id' ) {$param=$key.'dev';} else  {$param=$key;}
 $par[$param]=$value;
 }     
 $par['json']=$json;
+echo "<br>";
+print_r($par);
 
 
 
 $model=$par['model'];
 $channel=$par['channel'];
 
-///для devices
-$par1=array();
-$par1['model']=$par['model'];
-//echo $par1['model'].":".par['model'].':'.$model;
-$par1['json']=$par['json'];
-if ($par['iddev']) $par1['iddev']=$par['iddev'];
-$par1['channel']=$par['channel'];
-$par1['time']=$par['time'];
-$partime=$par['time'];
-
-$partimets=time();
-
-
-
-SQLexec("update rtl433_config set VALUE='$partime' where parametr='LASTCYCLE_TXT'");
-SQLexec("update rtl433_config set VALUE='$partimets' where parametr='LASTCYCLE'");
-
-if ($par['battery']) $par1['battery']=$par['battery'];
-if ($par['temperature_C']) $par1['temperature_C']=$par['temperature_C'];
-if ($par['humidity']) $par1['humidity']=$par['humidity'];
-if ($par['sid']) $par1['iddev']=$par['sid'];
-
-
-
-
 
 $sql1="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
-//echo $sql1;
+echo "<br>";
+echo $sql1;
 $new=SQLSelectOne($sql1);
-//echo "newid=".$new['ID']."<br>";
-//echo "<br>";
+
+$new['model']=$par['model'];
+$new['json']=$par['json'];
+$new['channel']=$par['channel'];
+$new['time']=$par['time'];
+$new['iddev']=$par['iddev'];
+
+if ($par['battery']) $new['battery']=$par['battery'];
+if ($par['temperature_C']) $new['temperature_C']=$par['temperature_C'];
+if ($par['humidity']) $new['humidity']=$par['humidity'];
+if ($par['sid']) $new['iddev']=$par['sid'];
 
 if (!$new['ID']) 
 {
-SQLInsert('rtl433_devices',$par1); 
+$devid=SQLInsert('rtl433_devices',$new); 
 }
 else
 {
-SQLUpdate('rtl433_devices',$par1); 
+$devid=SQLUpdate('rtl433_devices',$new); 
 }
 
 
-$newdevices=SQLSelectOne("select * from rtl433_devices where model='$model' and  channel='$channel' ");
-$newid=$newdevices['ID'];
+$sql1="SELECT * FROM rtl433_devices where model='$model' and  channel='$channel' ";
+echo "<br>";
+echo $sql1;
+$devid=SQLSelectOne($sql1)['ID'];
 
-$newcommands=SQLSelectOne("select * from rtl433_commands where DEVICE_ID='$newid'");
-//$pr=print_r($par);
-//echo "<br>Добавляем: ".$pr."<br>";
-//sg('test.rtl433',print_r($par));
+
+echo "<br>devid:".$devid."<br>";
+
 foreach ($par as $key=> $value){
-//echo $key.":".$value;
-//echo $key.":".$value." ";
-$newcommands['TITLE']=$key;
-$newcommands['VALUE']=$value;
-$newcommands['DEVICE_ID']=$newid;
-$newcommands['UPDATED']=date('Y-m-d H:i:s');
-$sql2="select * from rtl433_commands where DEVICE_ID='$newid' and 'TITLE'='$key'";
-//echo $sql2;
-//echo $newcommands['ID'];
-if (SQLSelectOne($sql2)['ID'])
-{
-echo "1";
-SQLUpdate('rtl433_commands',$newcommands);
-} 
 
-if (!SQLSelectOne($sql2)['ID'])
+$sql2="select * from rtl433_commands where DEVICE_ID='$devid' and TITLE='$key'";
+echo $sql2."<br>";
+$recc=SQLSelectOne($sql2);
+
+$recc['TITLE']=$key;
+$recc['VALUE']=$value;
+$recc['DEVICE_ID']=$devid;
+$recc['UPDATED']=date('Y-m-d H:i:s');
+if (!$recc['ID'])
 {
-echo "2";
-SQLInsert('rtl433_commands',$newcommands); 
-echo "21";
+SQLInsert('rtl433_commands',$recc); 
 } 
+else
+{
+SQLUpdate('rtl433_commands',$recc);
+} 
+} //перебор 2
+
+
 }
-
-
-
-
- 
-
- 	}
 }}
 
 
