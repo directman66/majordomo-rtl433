@@ -162,6 +162,9 @@ $a=shell_exec("tail -n 400 $filename");
 $a =  str_replace( array("\r\n","\r","\n") , '<br>' , $a);
 $out['MSG_DEBUG']=$a;
 
+$out['DEBUG_FILE_NAME']= $filename;
+$out['DEBUG_FILE_TIME']= date ("d-m-Y H:i:s.", filemtime($filename));
+
 
 
 
