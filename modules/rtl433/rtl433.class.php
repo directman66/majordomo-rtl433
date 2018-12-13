@@ -128,7 +128,7 @@ $cmd='ps -A|grep 433';
 $answ=shell_exec($cmd);
 $out['MSG_PS']=$answ;
 //echo $answ;
-$rez=substr_count  ($answ,'433' );
+$rez=substr_count  ($answ,'rtl_433' );
 //echo $rez;
 if ($rez=="1" ){
 $out['APPRUN'] = 1;
