@@ -236,10 +236,14 @@ $this->redirect("?");
 
 if ($this->view_mode=='delete_devices') {
 $this->delete_once($this->id);
+$this->redirect("?");
+
 }  
 
 if ($this->view_mode=='clearall') {
 $this->clearall();
+$this->redirect("?");
+
 }  
 
          if ($this->view_mode == 'edit_devices') {
@@ -256,18 +260,23 @@ $this->clearall();
  if ($this->view_mode=='config_check') {
 //echo "echeck";
    $this->config_check($this->id);
+$this->redirect("?tab=configdevices");
+
  }
  if ($this->view_mode=='config_uncheck') {
    $this->config_uncheck($this->id);
+$this->redirect("?tab=configdevices");
  }
 
 
  if ($this->view_mode=='config_checkall') {
    $this->config_checkall();
+$this->redirect("?tab=configdevices");
  }
 
  if ($this->view_mode=='config_uncheckall') {
    $this->config_uncheckall();
+$this->redirect("?tab=configdevices");
  }
 
 
