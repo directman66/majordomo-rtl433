@@ -449,6 +449,8 @@ $enable=$mhdevices['value'];
 
 
 if ((substr($json,1,13)=="Signal caught")&&($$enablecycle=='1')) {$this->start(); }
+if ((substr($json,1,13)=="Async read st")&&($$enablecycle=='1')) {$this->start(); }
+if ((substr($json,1,13)=="Reattaching k")&&($$enablecycle=='1')) {$this->start(); }
 //if (substr($json,1,13)=="Signal caught") {$this->start(); }
 if (substr($json,1,1)=="{")
 { 
